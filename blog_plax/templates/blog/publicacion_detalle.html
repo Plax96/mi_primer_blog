@@ -3,12 +3,25 @@
 {% block content %}
     <div class="post">
         {% if publicacion.published_date %}
-            <div class="date">
-                {{ publicacion.published_date }}
-            </div>
+          <div class="date">
+              {{ publicacion.published_date }}
+          </div>
+          <a class="btn btn-default" href="{% url 'publicacion_editar' pk=publicacion.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+          <a class="btn btn-default" href="{% url 'publicar_remover' pk=publicacion.id %}"><span class="glyphicon glyphicon-remove"></span></a>
+          <h1>{{ publicacion.title }}</h1>
+          <p>{{ publicacion.text|linebreaksbr }}</p>
+
+        {% else %}
+        <div class="post">
+              <a class="btn btn-default" href="{% url 'publicacion_publicar' pk=publicacion.pk %}">Publish</a>
+              <a class="btn btn-default" href="{% url 'publicacion_editar' pk=publicacion.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              <a class="btn btn-default" href="{% url 'publicar_remover' pk=publicacion.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+              <p class="date">created: {{ publicacion.created_date|date:'d-m-Y' }}</p>
+              <h1><a href="{% url 'publicacion_detalle' pk=publicacion.pk %}">{{ publicacion.title }}</a></h1>
+              <p>{{ publicacion.text|truncatechars:200 }}</p>
+          </div>
+
         {% endif %}
-        <a class="btn btn-default" href="{% url 'publicacion_editar' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        <h1>{{ publicacion.title }}</h1>
-        <p>{{ publicacion.text|linebreaksbr }}</p>
+
     </div>
 {% endblock %}
